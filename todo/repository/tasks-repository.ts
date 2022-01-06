@@ -18,6 +18,10 @@ export class TasksRepository {
     return this.#db.addItem(task);
   }
 
+  getTask(id: string) {
+    return this.#db.getItem(id);
+  }
+
   getAllTasks() {
     return this.#db.getAllItems();
   }

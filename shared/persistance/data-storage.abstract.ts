@@ -4,16 +4,19 @@ export interface Item {
   id: string;
 }
 
+export type ItemId = Item["id"];
+
 // Using Promises to mimic adapter-like client
 export interface DataStorageInterface<T> {
   addItem: (itemData: T) => Promise<T & Item>;
+  getItem: (id: ItemId) => Promise<(T & Item) | undefined>;
   getAllItems: () => Promise<ReadonlyArray<T & Item>>;
-  updateItem: (id: Item["id"], itemData: T) => Promise<T & Item>;
-  removeItem: (id: Item["id"]) => Promise<boolean>;
+  updateItem: (id: ItemId, itemData: T) => Promise<T & Item>;
+  removeItem: (id: ItemId) => Promise<boolean>;
 }
 
 export class DataStorage<T> implements DataStorageInterface<T> {
-  #items: Record<Item["id"], T & Item> = {};
+  #items: Record<ItemId, T & Item> = {};
 
   addItem(itemData: T) {
     const item = {
@@ -26,11 +29,15 @@ export class DataStorage<T> implements DataStorageInterface<T> {
     return Promise.resolve(item);
   }
 
+  getItem(id: ItemId) {
+    return Promise.resolve(this.#items[id]);
+  }
+
   getAllItems() {
     return Promise.resolve(Object.values(this.#items));
   }
 
-  updateItem(id: Item["id"], itemData: T) {
+  updateItem(id: ItemId, itemData: T) {
     this.#items[id] = {
       ...this.#items[id],
       ...itemData,
@@ -39,7 +46,7 @@ export class DataStorage<T> implements DataStorageInterface<T> {
     return Promise.resolve(this.#items[id]);
   }
 
-  removeItem(id: Item["id"]) {
+  removeItem(id: ItemId) {
     const itemIsInDB = Boolean(this.#items[id]);
 
     if (itemIsInDB) {

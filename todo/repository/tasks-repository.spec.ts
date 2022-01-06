@@ -32,6 +32,35 @@ describe("TasksRepository class", () => {
     });
   });
 
+  describe("getTask method", () => {
+    it("should cass DB for given task", async () => {
+      const tasksDbMock = new TasksDbMock();
+      tasksDbMock.getItem = jest.fn();
+      const tasksRepository = new TasksRepository(tasksDbMock);
+      const taskId = "uuid-like-string";
+
+      await tasksRepository.getTask(taskId);
+
+      expect(tasksDbMock.getItem).toHaveBeenCalledWith(taskId);
+    });
+
+    it("should resolve with task", async () => {
+      const tasksDbMock = new TasksDbMock();
+      const tasksRepository = new TasksRepository(tasksDbMock);
+      const taskId = "uuid-like-string";
+
+      const task = await tasksRepository.getTask(taskId);
+
+      expect(task).toMatchInlineSnapshot(`
+        Object {
+          "description": "Task not done yet",
+          "done": false,
+          "id": "uuid-like-string",
+        }
+      `);
+    });
+  });
+
   describe("getAllTasks method", () => {
     it("should call DB for all tasks", async () => {
       const tasksDbMock = new TasksDbMock();
