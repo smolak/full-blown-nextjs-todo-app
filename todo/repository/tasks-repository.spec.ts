@@ -1,5 +1,6 @@
 import { TasksDbMock } from "../persistance/tasks-db.mock";
 import { TasksRepository } from "./tasks-repository";
+import { useDebugValue } from "react";
 
 describe("TasksRepository class", () => {
   describe("createTask method", () => {
@@ -106,6 +107,19 @@ describe("TasksRepository class", () => {
       await tasksRepository.updateTask(taskId, taskData);
 
       expect(tasksDbMock.updateItem).toHaveBeenCalledWith(taskId, taskData);
+    });
+
+    it("should not allow to change the ID of the task", async () => {
+      const tasksDbMock = new TasksDbMock();
+      const tasksRepository = new TasksRepository(tasksDbMock);
+      const taskId = "uuid-like-string";
+      const newTaskId = "new-task-id";
+      const taskData = { id: newTaskId, done: true, description: "Some description", foo: "bar" };
+
+      const updatedTask = await tasksRepository.updateTask(taskId, taskData);
+
+      expect(updatedTask.id).toEqual(taskId);
+      expect(updatedTask.id).not.toEqual(newTaskId);
     });
 
     it("should resolve with updated task", async () => {

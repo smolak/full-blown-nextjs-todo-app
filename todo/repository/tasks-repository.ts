@@ -27,6 +27,11 @@ export class TasksRepository {
   }
 
   updateTask(id: string, taskData: Task) {
+    if ("id" in taskData) {
+      // @ts-ignore
+      delete taskData.id;
+    }
+
     return this.#db.updateItem(id, taskData);
   }
 

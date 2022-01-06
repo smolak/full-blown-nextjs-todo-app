@@ -24,8 +24,8 @@ export class TasksDbMock implements DataStorageInterface<Task> {
   updateItem(taskId: ItemId, taskData: Task): Promise<Task & Item> {
     return Promise.resolve({
       ...taskDone,
-      id: taskId,
       ...taskData,
+      id: taskId,
     });
   }
 
