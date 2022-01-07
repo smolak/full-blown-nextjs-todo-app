@@ -14,6 +14,7 @@ export const createCreateTaskHandler =
 
       res.status(StatusCodes.CREATED).json({ task });
     } else {
-      res.status(StatusCodes.METHOD_NOT_ALLOWED).setHeader("Allow", "POST");
+      res.setHeader("Allow", "POST");
+      res.status(StatusCodes.METHOD_NOT_ALLOWED).end();
     }
   };

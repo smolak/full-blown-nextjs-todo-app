@@ -15,6 +15,7 @@ export const createUpdateTaskHandler =
 
       res.status(StatusCodes.CREATED).json({ task });
     } else {
-      res.status(StatusCodes.METHOD_NOT_ALLOWED).setHeader("Allow", "PUT");
+      res.setHeader("Allow", "PUT");
+      res.status(StatusCodes.METHOD_NOT_ALLOWED).end();
     }
   };

@@ -42,6 +42,7 @@ describe("createTaskHandler", () => {
       await handler(req, res);
 
       expect(res.statusCode).toBe(StatusCodes.CREATED);
+      expect(res.finished).toBeTrue();
       expect(res._getJSONData()).toMatchInlineSnapshot(`
         Object {
           "task": Object {
@@ -66,6 +67,7 @@ describe("createTaskHandler", () => {
 
       expect(res.statusCode).toBe(StatusCodes.METHOD_NOT_ALLOWED);
       expect(res._getHeaders()).toContainEntry(["allow", "POST"]);
+      expect(res.finished).toBeTrue();
     });
   });
 });

@@ -14,6 +14,7 @@ export const createGetAllTasksHandler =
 
       res.status(StatusCodes.OK).json({ tasks });
     } else {
-      res.status(StatusCodes.METHOD_NOT_ALLOWED).setHeader("Allow", "GET");
+      res.setHeader("Allow", "GET");
+      res.status(StatusCodes.METHOD_NOT_ALLOWED).end();
     }
   };

@@ -1,7 +1,7 @@
-import { createGetAllTasksHandler } from "./tasks-get.handler";
 import { TasksRepositoryMock } from "../repository/tasks-repository.mock";
 import { createMocks } from "node-mocks-http";
 import { StatusCodes } from "http-status-codes";
+import { createGetAllTasksHandler } from "./get-all-tasks.handler";
 
 describe("createGetAllTasksHandler", () => {
   it("should return a GET request handler", () => {
@@ -36,6 +36,7 @@ describe("getAllTasksHandler", () => {
       await handler(req, res);
 
       expect(res.statusCode).toBe(StatusCodes.OK);
+      expect(res.finished).toBeTrue();
       expect(res._getJSONData()).toMatchInlineSnapshot(`
         Object {
           "tasks": Array [
@@ -67,6 +68,7 @@ describe("getAllTasksHandler", () => {
 
       expect(res.statusCode).toBe(StatusCodes.METHOD_NOT_ALLOWED);
       expect(res._getHeaders()).toContainEntry(["allow", "GET"]);
+      expect(res.finished).toBeTrue();
     });
   });
 });
