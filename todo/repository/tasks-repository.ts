@@ -1,8 +1,17 @@
 import { TasksDb } from "../persistance/tasks-db";
 import { Task } from "../models/task";
 import { DataStorageInterface } from "../../shared/persistance/data-storage.abstract";
+import { TaskVM } from "../models/taskVM";
 
-export class TasksRepository {
+export interface TasksRepositoryInterface {
+  createTask: (taskDescription: Task["description"]) => Promise<TaskVM>;
+  getTask: (id: string) => Promise<TaskVM | undefined>;
+  getAllTasks: () => Promise<ReadonlyArray<TaskVM>>;
+  updateTask: (id: string, taskData: Task) => Promise<TaskVM>;
+  removeTask: (id: string) => Promise<boolean>;
+}
+
+export class TasksRepository implements TasksRepositoryInterface {
   #db: DataStorageInterface<Task>;
 
   constructor(db: DataStorageInterface<Task> = TasksDb.getInstance()) {
