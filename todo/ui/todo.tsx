@@ -12,7 +12,13 @@ export const Todo: FC<TodoProps> = ({ onFormSubmit, tasks, onTaskClick }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
-  const submitForm = async () => await onFormSubmit(inputRef.current?.value as string);
+  const submitForm = async () => {
+    const taskDescription = (inputRef.current?.value as string).trim();
+
+    if (taskDescription !== "") {
+      await onFormSubmit(taskDescription);
+    }
+  };
   const resetForm = () => formRef.current?.reset();
   const focusOnInput = () => inputRef.current?.focus();
 

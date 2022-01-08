@@ -9,6 +9,7 @@ const defaultProps: TodoProps = {
   onTaskClick: () => Promise.resolve(taskDone),
 };
 const getInputField = () => screen.getByPlaceholderText("What do you have to do?");
+const getSubmitButton = () => screen.getByRole("button", { name: /add/i });
 
 describe("Todo", () => {
   describe("form", () => {
@@ -39,6 +40,20 @@ describe("Todo", () => {
         expect(props.onFormSubmit).toHaveBeenCalledWith("First task");
       });
 
+      describe("when task is empty", () => {
+        it("should not submit it", () => {
+          const props = {
+            ...defaultProps,
+            onFormSubmit: jest.fn(),
+          };
+          render(<Todo {...props} />);
+
+          userEvent.type(getInputField(), "{enter}");
+
+          expect(props.onFormSubmit).not.toHaveBeenCalled();
+        });
+      });
+
       it("should clear the form", async () => {
         render(<Todo {...defaultProps} />);
 
@@ -67,16 +82,30 @@ describe("Todo", () => {
         render(<Todo {...props} />);
 
         userEvent.type(getInputField(), "First task");
-        userEvent.click(screen.getByRole("button", { name: /add/i }));
+        userEvent.click(getSubmitButton());
 
         expect(props.onFormSubmit).toHaveBeenCalledWith("First task");
+      });
+
+      describe("when task is empty", () => {
+        it("should not submit it", () => {
+          const props = {
+            ...defaultProps,
+            onFormSubmit: jest.fn(),
+          };
+          render(<Todo {...props} />);
+
+          userEvent.click(getSubmitButton());
+
+          expect(props.onFormSubmit).not.toHaveBeenCalled();
+        });
       });
 
       it("should clear the form", async () => {
         render(<Todo {...defaultProps} />);
 
         userEvent.type(getInputField(), "First task");
-        userEvent.click(screen.getByRole("button", { name: /add/i }));
+        userEvent.click(getSubmitButton());
 
         await waitFor(() => {
           expect(getInputField()).toHaveValue("");
@@ -87,7 +116,7 @@ describe("Todo", () => {
         render(<Todo {...defaultProps} />);
 
         userEvent.type(getInputField(), "First task");
-        userEvent.click(screen.getByRole("button", { name: /add/i }));
+        userEvent.click(getSubmitButton());
 
         await waitFor(() => {
           expect(getInputField()).toHaveFocus();
