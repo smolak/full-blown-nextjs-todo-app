@@ -1,6 +1,5 @@
 import { TasksDbMock } from "../persistance/tasks-db.mock";
 import { TasksRepository } from "./tasks-repository";
-import { useDebugValue } from "react";
 
 describe("TasksRepository class", () => {
   describe("createTask method", () => {
@@ -27,7 +26,7 @@ describe("TasksRepository class", () => {
         Object {
           "description": "A new task",
           "done": false,
-          "id": "uuid-like-string",
+          "id": "uuid-like-string-1",
         }
       `);
     });
@@ -84,12 +83,12 @@ describe("TasksRepository class", () => {
           Object {
             "description": "Task done already",
             "done": true,
-            "id": "uuid-like-string",
+            "id": "uuid-like-string-2",
           },
           Object {
             "description": "Task not done yet",
             "done": false,
-            "id": "uuid-like-string",
+            "id": "uuid-like-string-1",
           },
         ]
       `);

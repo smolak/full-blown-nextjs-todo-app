@@ -48,7 +48,7 @@ describe("createTaskHandler", () => {
           "task": Object {
             "description": "First task",
             "done": false,
-            "id": "uuid-like-string",
+            "id": "uuid-like-string-1",
           },
         }
       `);

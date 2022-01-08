@@ -43,12 +43,12 @@ describe("getAllTasksHandler", () => {
             Object {
               "description": "Task done already",
               "done": true,
-              "id": "uuid-like-string",
+              "id": "uuid-like-string-2",
             },
             Object {
               "description": "Task not done yet",
               "done": false,
-              "id": "uuid-like-string",
+              "id": "uuid-like-string-1",
             },
           ],
         }
