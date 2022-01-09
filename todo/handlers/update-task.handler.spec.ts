@@ -66,7 +66,7 @@ describe("createTaskHandler", () => {
     });
   });
 
-  describe("for methods other than PUT", () => {
+  describe("for methods other than allowed ones", () => {
     it("should respond with method not allowed", async () => {
       const { req, res } = createMocks({
         method: "GET",
