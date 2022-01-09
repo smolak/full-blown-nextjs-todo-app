@@ -2,10 +2,10 @@ import { FC, useCallback, useEffect, useState } from "react";
 import { Todo } from "./todo";
 import { TaskVM } from "../models/taskVM";
 
-const fetchTasks = (callback: (tasks: ReadonlyArray<TaskVM>) => void) =>
+const fetchTasks = (): Promise<ReadonlyArray<TaskVM>> =>
   fetch("/api/todo/tasks")
     .then((response) => response.json())
-    .then(({ tasks }) => callback(tasks));
+    .then(({ tasks }) => tasks);
 
 const createTask = (taskDescription: string) =>
   fetch("/api/todo/tasks/create", {
@@ -16,25 +16,26 @@ const createTask = (taskDescription: string) =>
     body: JSON.stringify({ taskDescription }),
   });
 
-const updateTask = function (task: TaskVM) {
-  return fetch(`/api/todo/tasks/${task.id}/edit`, {
+const updateTask = (task: TaskVM) =>
+  fetch(`/api/todo/tasks/${task.id}/edit`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
     },
     body: JSON.stringify(task),
   });
-};
 
 export const TodoContainer: FC = () => {
   const [tasks, setTasks] = useState<ReadonlyArray<TaskVM>>([]);
 
   useEffect(() => {
-    fetchTasks(setTasks);
+    fetchTasks().then(setTasks);
   }, []);
 
   const onFormSubmit = (taskDescription: string) => {
-    createTask(taskDescription).then(() => fetchTasks(setTasks));
+    createTask(taskDescription)
+      .then(() => fetchTasks())
+      .then(setTasks);
   };
 
   const onTaskClick = useCallback(
@@ -45,7 +46,9 @@ export const TodoContainer: FC = () => {
         done: !task.done,
       };
 
-      updateTask(toggledTask).then(() => fetchTasks(setTasks));
+      updateTask(toggledTask)
+        .then(() => fetchTasks())
+        .then(setTasks);
     },
     [tasks]
   );
