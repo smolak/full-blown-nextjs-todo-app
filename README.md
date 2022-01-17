@@ -1,5 +1,10 @@
-# Running
+# TODO app made (not) simple
 
+## Some info
+
+This is not complete, has missing parts (like proper validation). Made for fun.
+
+## Running
 
 Due to how I implemented a naive local in-memory "DB" and how APIs are run locally (compiled on demand), the easiest way to mitigate the problem with data stored in the DB not being available for each endpoint's first call (consecutive are working) is to: 
 
