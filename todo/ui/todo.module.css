@@ -1,37 +1,37 @@
 .container {
-    padding: 30px;
+  padding: 30px;
 }
 
 /**
  Grid's gap is not supported well. Lobotomized owls will work just fine here.
  */
 .form > * + * {
-    margin-left: 4px;
+  margin-left: 4px;
 }
 
 .taskName {
-    width: 200px;
-    padding: 2px;
+  width: 200px;
+  padding: 2px;
 }
 
 .submitButton {
-    padding: 2px;
+  padding: 2px;
 }
 
 .taskList {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 .taskList > * + * {
-    margin-top: 5px;
+  margin-top: 5px;
 }
 
 .taskLabel > * + * {
-    margin-left: 4px;
+  margin-left: 4px;
 }
 
 .taskDone {
-    text-decoration: line-through;
-    color: gray;
+  text-decoration: line-through;
+  color: gray;
 }
