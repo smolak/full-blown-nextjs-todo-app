@@ -40,20 +40,6 @@ describe("Todo", () => {
         expect(props.onFormSubmit).toHaveBeenCalledWith("First task");
       });
 
-      describe("when task is empty", () => {
-        it("should not submit it", () => {
-          const props = {
-            ...defaultProps,
-            onFormSubmit: jest.fn(),
-          };
-          render(<Todo {...props} />);
-
-          userEvent.type(getInputField(), "{enter}");
-
-          expect(props.onFormSubmit).not.toHaveBeenCalled();
-        });
-      });
-
       it("should clear the form", async () => {
         render(<Todo {...defaultProps} />);
 
@@ -73,21 +59,22 @@ describe("Todo", () => {
       });
     });
 
-    describe("when a task is typed and form is submitted using the submit button", () => {
-      it("should submit a task", () => {
-        const props = {
-          ...defaultProps,
-          onFormSubmit: jest.fn(),
-        };
-        render(<Todo {...props} />);
+    describe("when task is not typed in (empty input field)", () => {
+      describe("and is tried to be submitted with 'enter' key", () => {
+        it("should not submit it", () => {
+          const props = {
+            ...defaultProps,
+            onFormSubmit: jest.fn(),
+          };
+          render(<Todo {...props} />);
 
-        userEvent.type(getInputField(), "First task");
-        userEvent.click(getSubmitButton());
+          userEvent.type(getInputField(), "{enter}");
 
-        expect(props.onFormSubmit).toHaveBeenCalledWith("First task");
+          expect(props.onFormSubmit).not.toHaveBeenCalled();
+        });
       });
 
-      describe("when task is empty", () => {
+      describe("and is tried to be submitted with form's submit button", () => {
         it("should not submit it", () => {
           const props = {
             ...defaultProps,
@@ -99,6 +86,21 @@ describe("Todo", () => {
 
           expect(props.onFormSubmit).not.toHaveBeenCalled();
         });
+      });
+    });
+
+    describe("when a task is typed and form is submitted using the form's submit button", () => {
+      it("should submit a task", () => {
+        const props = {
+          ...defaultProps,
+          onFormSubmit: jest.fn(),
+        };
+        render(<Todo {...props} />);
+
+        userEvent.type(getInputField(), "First task");
+        userEvent.click(getSubmitButton());
+
+        expect(props.onFormSubmit).toHaveBeenCalledWith("First task");
       });
 
       it("should clear the form", async () => {
